@@ -244,6 +244,7 @@ C:\Users\User\Desktop\Aplicativo-Web-Panaderia-main\obj\Debug\net10.0\Aplicativo
 C:\Users\User\Desktop\Aplicativo-Web-Panaderia-main\obj\Debug\net10.0\AplicativoWebMVC.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\User\Desktop\Aplicativo-Web-Panaderia-main\obj\Debug\net10.0\AplicativoWebMVC.RazorAssemblyInfo.cache
 C:\Users\User\Desktop\Aplicativo-Web-Panaderia-main\obj\Debug\net10.0\AplicativoWebMVC.RazorAssemblyInfo.cs
+C:\Users\User\Desktop\Aplicativo-Web-Panaderia-main\obj\Debug\net10.0\AplicativoWebMVC.sourcelink.json
 C:\Users\User\Desktop\Aplicativo-Web-Panaderia-main\obj\Debug\net10.0\rjimswa.dswa.cache.json
 C:\Users\User\Desktop\Aplicativo-Web-Panaderia-main\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
 C:\Users\User\Desktop\Aplicativo-Web-Panaderia-main\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json
@@ -251,12 +252,10 @@ C:\Users\User\Desktop\Aplicativo-Web-Panaderia-main\obj\Debug\net10.0\scopedcss\
 C:\Users\User\Desktop\Aplicativo-Web-Panaderia-main\obj\Debug\net10.0\scopedcss\bundle\AplicativoWebMVC.styles.css
 C:\Users\User\Desktop\Aplicativo-Web-Panaderia-main\obj\Debug\net10.0\scopedcss\projectbundle\AplicativoWebMVC.bundle.scp.css
 C:\Users\User\Desktop\Aplicativo-Web-Panaderia-main\obj\Debug\net10.0\compressed\z52bg6x9pc-{0}-j0bp27xce0-j0bp27xce0.gz
-C:\Users\User\Desktop\Aplicativo-Web-Panaderia-main\obj\Debug\net10.0\compressed\1o48v8zi5b-{0}-iyjuce84ak-iyjuce84ak.gz
 C:\Users\User\Desktop\Aplicativo-Web-Panaderia-main\obj\Debug\net10.0\compressed\srdmckve7j-{0}-qm33rky56c-qm33rky56c.gz
 C:\Users\User\Desktop\Aplicativo-Web-Panaderia-main\obj\Debug\net10.0\compressed\ydtha0gym8-{0}-dsjeor2ow7-dsjeor2ow7.gz
-C:\Users\User\Desktop\Aplicativo-Web-Panaderia-main\obj\Debug\net10.0\compressed\rey11sjyl1-{0}-i2pjpsw5zb-i2pjpsw5zb.gz
-C:\Users\User\Desktop\Aplicativo-Web-Panaderia-main\obj\Debug\net10.0\compressed\e7ivn58jhx-{0}-jt86yncsk6-jt86yncsk6.gz
-C:\Users\User\Desktop\Aplicativo-Web-Panaderia-main\obj\Debug\net10.0\compressed\cdlpf0yfcb-{0}-7erswvi0qx-7erswvi0qx.gz
+C:\Users\User\Desktop\Aplicativo-Web-Panaderia-main\obj\Debug\net10.0\compressed\rey11sjyl1-{0}-45yldrdecf-45yldrdecf.gz
+C:\Users\User\Desktop\Aplicativo-Web-Panaderia-main\obj\Debug\net10.0\compressed\tm2s7vn7fn-{0}-hl1mdvs0ek-hl1mdvs0ek.gz
 C:\Users\User\Desktop\Aplicativo-Web-Panaderia-main\obj\Debug\net10.0\compressed\zopjakzu7c-{0}-er6ehhobhz-er6ehhobhz.gz
 C:\Users\User\Desktop\Aplicativo-Web-Panaderia-main\obj\Debug\net10.0\compressed\i95dh0rioy-{0}-bqjiyaj88i-bqjiyaj88i.gz
 C:\Users\User\Desktop\Aplicativo-Web-Panaderia-main\obj\Debug\net10.0\compressed\rwe6yyd3ww-{0}-c2jlpeoesf-c2jlpeoesf.gz
@@ -331,4 +330,5 @@ C:\Users\User\Desktop\Aplicativo-Web-Panaderia-main\obj\Debug\net10.0\refint\Apl
 C:\Users\User\Desktop\Aplicativo-Web-Panaderia-main\obj\Debug\net10.0\AplicativoWebMVC.pdb
 C:\Users\User\Desktop\Aplicativo-Web-Panaderia-main\obj\Debug\net10.0\AplicativoWebMVC.genruntimeconfig.cache
 C:\Users\User\Desktop\Aplicativo-Web-Panaderia-main\obj\Debug\net10.0\ref\AplicativoWebMVC.dll
-C:\Users\User\Desktop\Aplicativo-Web-Panaderia-main\obj\Debug\net10.0\compressed\tm2s7vn7fn-{0}-tmslg78bei-tmslg78bei.gz
+C:\Users\User\Desktop\Aplicativo-Web-Panaderia-main\obj\Debug\net10.0\compressed\1o48v8zi5b-{0}-stis2ey0me-stis2ey0me.gz
+C:\Users\User\Desktop\Aplicativo-Web-Panaderia-main\obj\Debug\net10.0\compressed\e7ivn58jhx-{0}-plqrdlujse-plqrdlujse.gz

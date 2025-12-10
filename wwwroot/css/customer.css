@@ -334,7 +334,6 @@ p { font-size: 1rem; font-weight: 400; }
     height: 1.25rem;
     color: var(--muted-foreground);
     stroke-width: 2;
-    padding-left: 5px;
 }
 
 .search-input {
@@ -374,7 +373,7 @@ p { font-size: 1rem; font-weight: 400; }
 /* Input */
 .input {
     width: 100%;
-    padding: 0.625rem 2.10rem;
+    padding: 0.625rem 0.75rem;
     background-color: var(--secondary);
     border: 1px solid var(--border);
     border-radius: var(--radius);

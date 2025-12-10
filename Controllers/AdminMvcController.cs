@@ -8,7 +8,5 @@ namespace AplicativoWebMVC.Controllers
         {
             return View();
         }
-
-        
     }
 }

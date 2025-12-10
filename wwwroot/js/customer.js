@@ -8,91 +8,136 @@ let cart = [];
 let customerOrders = [];
 let searchTerm = '';
 let selectedCategory = 'Todos';
-let currentView = 'shop'; // 'shop' o 'orders'
+let currentView = 'shop'; // 'shop' o 'orders' o 'payment'
+let products = []; // Ahora será cargado desde localStorage
+let paymentMethods = []; // Métodos de pago del cliente
 
-const products = [
-    {
-        id: 'P001',
-        nombre: 'Pan Artesanal Integral',
-        categoria: 'Panes',
-        precio: 180000,
-        descripcion: 'Pan integral recién horneado con semillas de girasol y lino',
-        imagen: 'https://images.unsplash.com/photo-1555932450-31a8aec2adf1?w=400',
-        disponible: true
-    },
-    {
-        id: 'P002',
-        nombre: 'Croissants de Mantequilla',
-        categoria: 'Pastelería',
-        precio: 140000,
-        descripcion: 'Croissants hojaldrados con mantequilla francesa premium',
-        imagen: 'https://images.unsplash.com/photo-1636294153307-e38cbf295a87?w=400',
-        disponible: true
-    },
-    {
-        id: 'P003',
-        nombre: 'Pan de Masa Madre',
-        categoria: 'Panes',
-        precio: 260000,
-        descripcion: 'Pan de masa madre con fermentación de 24 horas',
-        imagen: 'https://images.unsplash.com/photo-1624323209995-b617d99ce390?w=400',
-        disponible: true
-    },
-    {
-        id: 'P004',
-        nombre: 'Pastel de Chocolate',
-        categoria: 'Pasteles',
-        precio: 1120000,
-        descripcion: 'Delicioso pastel de chocolate con ganache suave',
-        imagen: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400',
-        disponible: true
-    },
-    {
-        id: 'P005',
-        nombre: 'Galletas Surtidas',
-        categoria: 'Galletas',
-        precio: 340000,
-        descripcion: 'Caja de galletas artesanales surtidas (12 unidades)',
-        imagen: 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=400',
-        disponible: true
-    },
-    {
-        id: 'P006',
-        nombre: 'Donas Glaseadas',
-        categoria: 'Donas',
-        precio: 100000,
-        descripcion: 'Donas esponjosas con glaseado de colores (unidad)',
-        imagen: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?w=400',
-        disponible: true
+// ============================================
+// FUNCIONES DE SINCRONIZACIÓN CON LOCALSTORAGE
+// ============================================
+
+// Cargar productos desde localStorage
+function loadProducts() {
+    const savedProducts = localStorage.getItem('panaderia_products');
+    if (savedProducts) {
+        return JSON.parse(savedProducts);
     }
-];
+    // Productos por defecto si no hay guardados
+    return [
+        {
+            id: 'P001',
+            nombre: 'Pan Artesanal Integral',
+            categoria: 'Panes',
+            precio: 180000,
+            descripcion: 'Pan integral recién horneado con semillas de girasol y lino',
+            imagen: 'https://images.unsplash.com/photo-1555932450-31a8aec2adf1?w=400',
+            disponible: true,
+            stock: 45
+        },
+        {
+            id: 'P002',
+            nombre: 'Croissants de Mantequilla',
+            categoria: 'Pastelería',
+            precio: 140000,
+            descripcion: 'Croissants hojaldrados con mantequilla francesa premium',
+            imagen: 'https://images.unsplash.com/photo-1636294153307-e38cbf295a87?w=400',
+            disponible: true,
+            stock: 32
+        },
+        {
+            id: 'P003',
+            nombre: 'Pan de Masa Madre',
+            categoria: 'Panes',
+            precio: 260000,
+            descripcion: 'Pan de masa madre con fermentación de 24 horas',
+            imagen: 'https://images.unsplash.com/photo-1624323209995-b617d99ce390?w=400',
+            disponible: true,
+            stock: 28
+        },
+        {
+            id: 'P004',
+            nombre: 'Pastel de Chocolate',
+            categoria: 'Pasteles',
+            precio: 1120000,
+            descripcion: 'Delicioso pastel de chocolate con ganache suave',
+            imagen: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400',
+            disponible: true,
+            stock: 8
+        },
+        {
+            id: 'P005',
+            nombre: 'Galletas Surtidas',
+            categoria: 'Galletas',
+            precio: 340000,
+            descripcion: 'Caja de galletas artesanales surtidas (12 unidades)',
+            imagen: 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=400',
+            disponible: true,
+            stock: 25
+        },
+        {
+            id: 'P006',
+            nombre: 'Donas Glaseadas',
+            categoria: 'Donas',
+            precio: 100000,
+            descripcion: 'Donas esponjosas con glaseado de colores (unidad)',
+            imagen: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?w=400',
+            disponible: true,
+            stock: 42
+        }
+    ];
+}
+
+// Cargar pedidos desde localStorage
+function loadOrders() {
+    const savedOrders = localStorage.getItem('panaderia_orders');
+    if (savedOrders) {
+        // Filtrar solo los pedidos del cliente actual
+        const allOrders = JSON.parse(savedOrders);
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        return allOrders.filter(order => order.cliente === currentUser.name || order.customerId === currentUser.email);
+    }
+    return [];
+}
+
+// Guardar pedido en localStorage (agregarlo a la lista general)
+function saveOrder(newOrder) {
+    const savedOrders = localStorage.getItem('panaderia_orders');
+    let orders = savedOrders ? JSON.parse(savedOrders) : [];
+    orders.push(newOrder);
+    localStorage.setItem('panaderia_orders', JSON.stringify(orders));
+}
+
+// Actualizar pedido en localStorage
+function updateOrderInStorage(orderId, updatedOrder) {
+    const savedOrders = localStorage.getItem('panaderia_orders');
+    let orders = savedOrders ? JSON.parse(savedOrders) : [];
+    const index = orders.findIndex(o => o.id === orderId);
+    if (index !== -1) {
+        orders[index] = updatedOrder;
+        localStorage.setItem('panaderia_orders', JSON.stringify(orders));
+    }
+}
+
+// Cargar métodos de pago desde localStorage
+function loadPaymentMethods() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const key = `panaderia_payment_${currentUser.email}`;
+    const savedMethods = localStorage.getItem(key);
+    if (savedMethods) {
+        return JSON.parse(savedMethods);
+    }
+    return [];
+}
+
+// Guardar métodos de pago en localStorage
+function savePaymentMethods() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const key = `panaderia_payment_${currentUser.email}`;
+    localStorage.setItem(key, JSON.stringify(paymentMethods));
+}
 
 // Inicializar pedidos de ejemplo
-customerOrders = [
-    {
-        id: 'PED-001',
-        productos: [
-            { nombre: 'Pan Artesanal Integral', cantidad: 2, precio: 180000 },
-            { nombre: 'Croissants de Mantequilla', cantidad: 4, precio: 140000 }
-        ],
-        total: 920000,
-        estado: 'Entregado',
-        fecha: '2025-12-01',
-        hora: '10:30',
-        cancelacionSolicitada: false
-    },
-    {
-        id: 'PED-002',
-        productos: [
-            { nombre: 'Pastel de Chocolate', cantidad: 1, precio: 1120000 }
-        ],
-        total: 1120000,
-        estado: 'En preparación',
-        fecha: '2025-12-04',
-        hora: '14:15',
-        cancelacionSolicitada: false
-    }
-];
+customerOrders = loadOrders();
 
 function formatCurrency(amount) {
     return `$ ${amount.toLocaleString('es-CO')} COP`;
@@ -268,10 +313,13 @@ function checkout() {
         estado: 'Pendiente',
         fecha: new Date().toISOString().split('T')[0],
         hora: new Date().toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' }),
-        cancelacionSolicitada: false
+        cancelacionSolicitada: false,
+        cliente: JSON.parse(localStorage.getItem('currentUser')).name,
+        customerId: JSON.parse(localStorage.getItem('currentUser')).email
     };
     
     customerOrders.push(newOrder);
+    saveOrder(newOrder);
     
     showToast('¡Pedido confirmado! Gracias por tu compra');
     cart = [];
@@ -295,6 +343,8 @@ function renderView() {
         renderShop();
     } else if (currentView === 'orders') {
         renderOrders();
+    } else if (currentView === 'payment') {
+        renderPayment();
     }
 }
 
@@ -412,6 +462,8 @@ function updateCategory(category) {
 
 function renderOrders() {
     const content = document.getElementById('customer-content');
+    // Recargar pedidos para tener los datos más actuales
+    customerOrders = loadOrders();
     
     content.innerHTML = `
         <div class="space-y-6">
@@ -421,7 +473,7 @@ function renderOrders() {
                     <h2 style="color: var(--primary-foreground); margin-bottom: 0.5rem;">
                         Mis Pedidos
                     </h2>
-                    <p style="color: rgba(10, 14, 26, 0.8);">Revisa el estado de tus pedidos y solicita cancelaciones</p>
+                    <p style="color: rgba(10, 14, 26, 0.8);">Revisa el estado de tus pedidos y gestiona tus pagos</p>
                 </div>
             </div>
             
@@ -435,6 +487,15 @@ function renderOrders() {
                                     <div>
                                         <h4 class="card-title">${order.id}</h4>
                                         <p class="text-sm text-muted">${order.fecha} - ${order.hora}</p>
+                                        ${order.metodoPago ? `
+                                            <div class="flex items-center gap-2 mt-2">
+                                                <svg class="icon icon-sm" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>
+                                                </svg>
+                                                <span class="text-sm" style="color: var(--primary);">${order.metodoPago}</span>
+                                                ${order.pagado ? `<span class="badge badge-success">Pagado</span>` : `<span class="badge badge-warning">Pendiente de Pago</span>`}
+                                            </div>
+                                        ` : ''}
                                     </div>
                                     <span class="badge ${getStatusColor(order.estado)}">${order.estado}</span>
                                 </div>
@@ -457,20 +518,30 @@ function renderOrders() {
                                         <span class="text-2xl text-primary">${formatCurrency(order.total)}</span>
                                     </div>
                                     
-                                    ${order.estado !== 'Entregado' && order.estado !== 'Cancelado' ? `
-                                        ${!order.cancelacionSolicitada ? `
-                                            <button class="btn btn-outline btn-sm cancel-btn" onclick="requestCancellation('${order.id}')">
-                                                Solicitar Cancelación
-                                            </button>
-                                        ` : `
-                                            <div class="cancellation-status">
-                                                <svg class="icon icon-sm" style="color: #f59e0b;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                    <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                                    <div class="flex gap-2 items-center">
+                                        ${order.estado !== 'Entregado' && order.estado !== 'Cancelado' && !order.pagado && paymentMethods.length > 0 && !order.metodoPago ? `
+                                            <button class="btn btn-primary btn-sm" onclick="showPaymentModal('${order.id}')">
+                                                <svg class="icon icon-sm" style="width: 1rem; height: 1rem;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>
                                                 </svg>
-                                                <span class="text-sm" style="color: #f59e0b;">Cancelación en proceso...</span>
-                                            </div>
-                                        `}
-                                    ` : ''}
+                                                Pagar
+                                            </button>
+                                        ` : ''}
+                                        ${order.estado !== 'Entregado' && order.estado !== 'Cancelado' ? `
+                                            ${!order.cancelacionSolicitada ? `
+                                                <button class="btn btn-outline btn-sm cancel-btn" onclick="requestCancellation('${order.id}')">
+                                                    Solicitar Cancelación
+                                                </button>
+                                            ` : `
+                                                <div class="cancellation-status">
+                                                    <svg class="icon icon-sm" style="color: #f59e0b;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                                                    </svg>
+                                                    <span class="text-sm" style="color: #f59e0b;">Cancelación en proceso...</span>
+                                                </div>
+                                            `}
+                                        ` : ''}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -493,6 +564,75 @@ function renderOrders() {
     `;
 }
 
+function showPaymentModal(orderId) {
+    const order = customerOrders.find(o => o.id === orderId);
+    if (!order) return;
+    
+    const modal = document.createElement('div');
+    modal.className = 'modal active';
+    modal.id = 'payment-modal';
+    modal.innerHTML = `
+        <div class="modal-backdrop" onclick="closePaymentModal()"></div>
+        <div class="modal-content">
+            <button class="close-btn" onclick="closePaymentModal()">&times;</button>
+            <div class="modal-header">
+                <h3 class="modal-title">Seleccionar Método de Pago</h3>
+                <p class="modal-description">Pedido: ${order.id} - Total: ${formatCurrency(order.total)}</p>
+            </div>
+            <div class="modal-body">
+                <div class="space-y-3">
+                    ${paymentMethods.map((method, index) => `
+                        <div class="card" style="cursor: pointer; transition: all 0.2s;" onclick="selectPaymentMethod('${orderId}', ${index})">
+                            <div class="card-content">
+                                <div class="flex items-center gap-3">
+                                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        ${method.tipo === 'Tarjeta' ? 
+                                            '<rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>' :
+                                            method.tipo === 'Nequi' ?
+                                            '<path d="M21 10c0-5-3-7-9-7s-9 2-9 7v2c0 2.5 1.5 5 9 5s9-2.5 9-5v-2z"/><line x1="12" y1="17" x2="12" y2="21"/><line x1="9" y1="21" x2="15" y2="21"/>' :
+                                            '<line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5h-2.5a2.5 2.5 0 0 0 0 5h5a2.5 2.5 0 0 1 0 5H17"/>'
+                                        }
+                                    </svg>
+                                    <div>
+                                        <h4>${method.nombre}</h4>
+                                        <p class="text-sm text-muted">${method.detalles}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+function closePaymentModal() {
+    const modal = document.getElementById('payment-modal');
+    if (modal) {
+        modal.remove();
+    }
+}
+
+function selectPaymentMethod(orderId, methodIndex) {
+    const order = customerOrders.find(o => o.id === orderId);
+    const method = paymentMethods[methodIndex];
+    
+    if (!order || !method) return;
+    
+    // Actualizar el pedido con el método de pago
+    order.metodoPago = `${method.tipo} - ${method.detalles}`;
+    order.pagado = true;
+    
+    // Actualizar en localStorage
+    updateOrderInStorage(orderId, order);
+    
+    closePaymentModal();
+    showToast(`Pago realizado exitosamente con ${method.tipo}`);
+    renderOrders();
+}
+
 function requestCancellation(orderId) {
     const order = customerOrders.find(o => o.id === orderId);
     if (order) {
@@ -509,31 +649,267 @@ function requestCancellation(orderId) {
     }
 }
 
+function renderPayment() {
+    const content = document.getElementById('customer-content');
+    
+    content.innerHTML = `
+        <div class="space-y-6">
+            <!-- Header -->
+            <div class="card card-primary shadow-lg">
+                <div class="card-content pt-6">
+                    <h2 style="color: var(--primary-foreground); margin-bottom: 0.5rem;">
+                        Métodos de Pago
+                    </h2>
+                    <p style="color: rgba(10, 14, 26, 0.8);">Administra tus métodos de pago para futuras compras</p>
+                </div>
+            </div>
+            
+            <!-- Add Payment Method Form -->
+            <div class="card shadow-lg">
+                <div class="card-header">
+                    <h3 class="card-title">Agregar Método de Pago</h3>
+                    <p class="text-sm text-muted">Selecciona el tipo de pago</p>
+                </div>
+                <div class="card-content">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="label">Tipo de Pago</label>
+                            <select id="payment-type" class="input" onchange="updatePaymentForm()">
+                                <option value="">Seleccionar...</option>
+                                <option value="tarjeta">Tarjeta de Crédito/Débito</option>
+                                <option value="nequi">Nequi</option>
+                                <option value="efectivo">Efectivo</option>
+                            </select>
+                        </div>
+                        
+                        <div id="payment-form-container"></div>
+                        
+                        <button class="btn btn-primary btn-block" onclick="savePaymentMethod()">
+                            Guardar Método de Pago
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Payment Methods List -->
+            ${paymentMethods.length > 0 ? `
+                <div>
+                    <h3 class="text-lg mb-4">Mis Métodos de Pago</h3>
+                    <div class="space-y-4">
+                        ${paymentMethods.map((method, index) => `
+                            <div class="card shadow-lg">
+                                <div class="card-content">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <div class="flex items-center gap-2 mb-2">
+                                                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    ${method.tipo === 'Tarjeta' ? 
+                                                        '<rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>' :
+                                                        method.tipo === 'Nequi' ?
+                                                        '<path d="M21 10c0-5-3-7-9-7s-9 2-9 7v2c0 2.5 1.5 5 9 5s9-2.5 9-5v-2z"/><line x1="12" y1="17" x2="12" y2="21"/><line x1="9" y1="21" x2="15" y2="21"/>' :
+                                                        '<line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5h-2.5a2.5 2.5 0 0 0 0 5h5a2.5 2.5 0 0 1 0 5H17"/>'
+                                                    }
+                                                </svg>
+                                                <h4 class="card-title">${method.nombre}</h4>
+                                            </div>
+                                            <p class="text-sm text-muted">${method.tipo}</p>
+                                            <p class="text-sm mt-2">${method.detalles}</p>
+                                        </div>
+                                        <div class="flex gap-2">
+                                            <button class="btn btn-outline btn-sm" onclick="deletePaymentMethod(${index})" style="color: #ef4444;">
+                                                <svg class="icon" style="width: 1rem; height: 1rem;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            ` : ''}
+        </div>
+    `;
+}
+
+function updatePaymentForm() {
+    const type = document.getElementById('payment-type').value;
+    const container = document.getElementById('payment-form-container');
+    
+    if (!type) {
+        container.innerHTML = '';
+        return;
+    }
+    
+    if (type === 'tarjeta') {
+        container.innerHTML = `
+            <div class="space-y-3">
+                <div>
+                    <label class="label">Nombre del Titular</label>
+                    <input type="text" id="card-holder" class="input" placeholder="Nombre completo" />
+                </div>
+                <div>
+                    <label class="label">Número de Tarjeta</label>
+                    <input type="text" id="card-number" class="input" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCardNumber(this)" />
+                </div>
+                <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div>
+                        <label class="label">Fecha de Expiración</label>
+                        <input type="text" id="card-expiry" class="input" placeholder="MM/AA" maxlength="5" oninput="formatExpiry(this)" />
+                    </div>
+                    <div>
+                        <label class="label">CVV</label>
+                        <input type="text" id="card-cvv" class="input" placeholder="123" maxlength="3" oninput="this.value=this.value.replace(/[^0-9]/g,'')" />
+                    </div>
+                </div>
+            </div>
+        `;
+    } else if (type === 'nequi') {
+        container.innerHTML = `
+            <div class="space-y-3">
+                <div>
+                    <label class="label">Número de Teléfono Nequi</label>
+                    <input type="tel" id="nequi-phone" class="input" placeholder="3001234567" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'')" />
+                </div>
+                <div>
+                    <label class="label">Nombre del Titular</label>
+                    <input type="text" id="nequi-holder" class="input" placeholder="Nombre completo" />
+                </div>
+            </div>
+        `;
+    } else if (type === 'efectivo') {
+        container.innerHTML = `
+            <div class="space-y-3">
+                <div class="p-4 rounded-lg" style="background-color: var(--secondary);">
+                    <p class="text-sm text-muted">El pago en efectivo se realizará al momento de la entrega del pedido.</p>
+                </div>
+            </div>
+        `;
+    }
+}
+
+function formatCardNumber(input) {
+    let value = input.value.replace(/\s/g, '').replace(/[^0-9]/g, '');
+    let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+    input.value = formattedValue;
+}
+
+function formatExpiry(input) {
+    let value = input.value.replace(/\//g, '').replace(/[^0-9]/g, '');
+    if (value.length >= 2) {
+        input.value = value.slice(0, 2) + '/' + value.slice(2, 4);
+    } else {
+        input.value = value;
+    }
+}
+
+function savePaymentMethod() {
+    const type = document.getElementById('payment-type').value;
+    
+    if (!type) {
+        showToast('Por favor selecciona un tipo de pago');
+        return;
+    }
+    
+    let method = {};
+    
+    if (type === 'tarjeta') {
+        const holder = document.getElementById('card-holder').value.trim();
+        const number = document.getElementById('card-number').value.trim();
+        const expiry = document.getElementById('card-expiry').value.trim();
+        const cvv = document.getElementById('card-cvv').value.trim();
+        
+        if (!holder || !number || !expiry || !cvv) {
+            showToast('Por favor completa todos los campos');
+            return;
+        }
+        
+        if (number.replace(/\s/g, '').length !== 16) {
+            showToast('Número de tarjeta inválido');
+            return;
+        }
+        
+        if (cvv.length !== 3) {
+            showToast('CVV inválido');
+            return;
+        }
+        
+        method = {
+            id: 'PM-' + Date.now(),
+            tipo: 'Tarjeta',
+            nombre: holder,
+            detalles: `**** **** **** ${number.slice(-4)}`,
+            expiry: expiry
+        };
+    } else if (type === 'nequi') {
+        const phone = document.getElementById('nequi-phone').value.trim();
+        const holder = document.getElementById('nequi-holder').value.trim();
+        
+        if (!phone || !holder) {
+            showToast('Por favor completa todos los campos');
+            return;
+        }
+        
+        if (phone.length !== 10) {
+            showToast('Número de teléfono inválido');
+            return;
+        }
+        
+        method = {
+            id: 'PM-' + Date.now(),
+            tipo: 'Nequi',
+            nombre: holder,
+            detalles: `Nequi ${phone}`
+        };
+    } else if (type === 'efectivo') {
+        method = {
+            id: 'PM-' + Date.now(),
+            tipo: 'Efectivo',
+            nombre: 'Pago en Efectivo',
+            detalles: 'Pago contra entrega'
+        };
+    }
+    
+    paymentMethods.push(method);
+    savePaymentMethods();
+    
+    showToast('Método de pago guardado exitosamente');
+    
+    // Limpiar formulario
+    document.getElementById('payment-type').value = '';
+    document.getElementById('payment-form-container').innerHTML = '';
+    
+    renderPayment();
+}
+
+function deletePaymentMethod(index) {
+    if (confirm('¿Estás seguro de eliminar este método de pago?')) {
+        paymentMethods.splice(index, 1);
+        savePaymentMethods();
+        showToast('Método de pago eliminado');
+        renderPayment();
+    }
+}
+
 // Inicializar
 document.addEventListener('DOMContentLoaded', () => {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-
-    // 🔹 Desactivado temporalmente para evitar redirección
-    /*
     if (!currentUser || currentUser.role !== 'customer') {
         window.location.href = 'login.html';
         return;
     }
-    */
-
-    // Si no hay usuario, simplemente usa datos ficticios para pruebas
-    if (!currentUser) {
-        localStorage.setItem('currentUser', JSON.stringify({
-            name: "Invitado",
-            role: "customer"
-        }));
-    }
-
-    const user = JSON.parse(localStorage.getItem('currentUser'));
-
+    
     document.getElementById('logo-img').src = logoImage;
-    document.getElementById('customer-name').textContent = user.name;
-
+    document.getElementById('customer-name').textContent = currentUser.name;
+    
+    // Cargar productos desde localStorage
+    products = loadProducts();
+    
+    // Cargar métodos de pago desde localStorage
+    paymentMethods = loadPaymentMethods();
+    
+    // Mostrar tienda por defecto
     switchView('shop');
     updateCartBadge();
 });

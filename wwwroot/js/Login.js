@@ -6,36 +6,55 @@ document.addEventListener("DOMContentLoaded", () => {
     const formLoginAdmin = document.getElementById("login-admin");
     const mensaje = document.getElementById("mensaje");
 
-    // ====== Mostrar / ocultar formularios ======
+    // ====== Mostrar / ocultar formularios de registro/login ======
     const showLoginBtn = document.getElementById("show-login");
     const showRegisterBtn = document.getElementById("show-register");
     const customerLogin = document.getElementById("customer-login");
     const customerRegister = document.getElementById("customer-register");
-    const adminLoginContainer = document.getElementById("admin-login");
+    const adminTab = document.getElementById("admin-tab");
 
     // Mostrar formulario de registro
     showRegisterBtn?.addEventListener("click", () => {
         customerLogin.classList.add("hidden");
-        adminLoginContainer.classList.add("hidden");
+        adminTab.classList.add("hidden");
         customerRegister.classList.remove("hidden");
+    // Limpiar mensaje al mostrar registro
+    mensaje.innerText = "";
     });
 
     // Mostrar login cliente
     showLoginBtn?.addEventListener("click", () => {
         customerRegister.classList.add("hidden");
-        adminLoginContainer.classList.add("hidden");
+        adminTab.classList.add("hidden");
         customerLogin.classList.remove("hidden");
     });
 
-    // Mostrar login admin
-    document.getElementById("show-admin")?.addEventListener("click", () => {
-        customerLogin.classList.add("hidden");
-        customerRegister.classList.add("hidden");
-        adminLoginContainer.classList.remove("hidden");
+    // ====== Navegación de tabs (Cliente / Admin) ======
+    const tabButtons = document.querySelectorAll(".tab-trigger");
+    const tabContents = document.querySelectorAll(".tab-content");
+
+    tabButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const target = btn.dataset.tab; // "customer" o "admin"
+
+            // Activar el botón seleccionado
+            tabButtons.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            // Mostrar contenido correspondiente
+            tabContents.forEach(content => {
+                content.classList.remove("active");
+                if (content.id === target + "-tab") content.classList.add("active");
+            });
+
+            // Siempre ocultar el registro cuando cambias de tab
+            customerRegister.classList.add("hidden");
+            customerLogin.classList.remove("hidden");
+        });
     });
 
     // ========================================================
-    // ===============   REGISTRO CLIENTE   ===================
+    // ================== REGISTRO CLIENTE ===================
     // ========================================================
     formRegistro?.addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -79,14 +98,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // ========================================================
-    // ===============   LOGIN CLIENTE   =======================
+    // ================== LOGIN CLIENTE ======================
     // ========================================================
     formLoginCliente?.addEventListener("submit", async (e) => {
         e.preventDefault();
 
         const data = {
-            Email: document.getElementById("login-email").value,
-            Contrasena: document.getElementById("login-password").value
+            Email: document.getElementById("customer-email").value,
+            Contrasena: document.getElementById("customer-password").value
         };
 
         try {
@@ -111,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // ========================================================
-    // ===============       LOGIN ADMIN     ===================
+    // ================== LOGIN ADMIN ========================
     // ========================================================
     formLoginAdmin?.addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -131,7 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (res.ok) {
                 showMessage("Bienvenido administrador", false);
                 setTimeout(() => {
-                    window.location.href = "/AdminMvc/Dashboard";
+                    window.location.href = "/AdminMvc/Index";
                 }, 800);
             } else {
                 showMessage("Credenciales incorrectas", true);
@@ -143,7 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // ========================================================
-    // ===============   FUNCIÓN PARA MENSAJES   ===============
+    // ================== MENSAJES ===========================
     // ========================================================
     function showMessage(text, isError) {
         mensaje.innerText = text;

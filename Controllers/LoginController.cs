@@ -18,9 +18,10 @@ namespace AplicativoWebMVC.Controllers
 
         // LOGIN CLIENTE
         [HttpPost("Cliente")]
-        public async Task<IActionResult> LoginCliente([FromBody] Usuario login)
+        public async Task<IActionResult> LoginCliente([FromBody] LoginDto login)
         {
-            if (login == null) return BadRequest("Datos inválidos.");
+            if (login == null || string.IsNullOrWhiteSpace(login.Email) || string.IsNullOrWhiteSpace(login.Contrasena))
+                return BadRequest("Email y contraseña son requeridos.");
 
             var user = await _context.Usuarios
                 .FirstOrDefaultAsync(u => u.Email == login.Email && u.Rol == "cliente");
@@ -40,9 +41,10 @@ namespace AplicativoWebMVC.Controllers
 
         // LOGIN ADMINISTRADOR
         [HttpPost("Admin")]
-        public async Task<IActionResult> LoginAdmin([FromBody] Usuario login)
+        public async Task<IActionResult> LoginAdmin([FromBody] LoginDto login)
         {
-            if (login == null) return BadRequest("Datos inválidos.");
+            if (login == null || string.IsNullOrWhiteSpace(login.Email) || string.IsNullOrWhiteSpace(login.Contrasena))
+                return BadRequest("Email y contraseña son requeridos.");
 
             var admin = await _context.Usuarios
                 .FirstOrDefaultAsync(u => u.Email == login.Email && u.Rol == "admin");
