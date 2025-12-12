@@ -7,7 +7,6 @@ namespace AplicativoWebMVC.Models
         public decimal StockActual { get; set; }
         public string Ubicacion { get; set; } = string.Empty;
         public DateTime FechaActualizacion { get; set; }
-
         public Catalogo? Producto { get; set; }
     }
 

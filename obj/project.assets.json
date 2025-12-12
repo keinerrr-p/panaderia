@@ -204,11 +204,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\User\\Desktop\\Aplicativo-Web-Panaderia-main\\AplicativoWebMVC.csproj",
+      "projectUniqueName": "C:\\Users\\User\\Desktop\\Aplicativo-Web-Panaderia\\AplicativoWebMVC.csproj",
       "projectName": "AplicativoWebMVC",
-      "projectPath": "C:\\Users\\User\\Desktop\\Aplicativo-Web-Panaderia-main\\AplicativoWebMVC.csproj",
+      "projectPath": "C:\\Users\\User\\Desktop\\Aplicativo-Web-Panaderia\\AplicativoWebMVC.csproj",
       "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\User\\Desktop\\Aplicativo-Web-Panaderia-main\\obj\\",
+      "outputPath": "C:\\Users\\User\\Desktop\\Aplicativo-Web-Panaderia\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

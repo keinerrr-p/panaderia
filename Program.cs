@@ -53,7 +53,7 @@ app.UseAuthorization();
 // ---------------------------------------------
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=PublicMvc}/{action=Index}/{id?}"
+    pattern: "{controller=CustomerMvc}/{action=Index}/{id?}"
 );
 
 // ---------------------------------------------
