@@ -22,7 +22,6 @@ namespace AplicativoWebMVC.Data
         public DbSet<InventarioEntrada> InventarioEntradas { get; set; }
         public DbSet<InventarioSalida> InventarioSalidas { get; set; }
         public DbSet<MovimientoInventario> MovimientosInventario { get; set; }
-        public DbSet<Proveedor> Proveedores { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Venta> Ventas { get; set; }
         public DbSet<Catalogo> Catalogos { get; set; }
@@ -39,10 +38,9 @@ namespace AplicativoWebMVC.Data
                 entity.Property(e => e.NombreUsuario).HasColumnName("nombre_usuario").HasMaxLength(100).IsRequired();
                 entity.Property(e => e.Contrasena).HasColumnName("contrasena").HasMaxLength(255).IsRequired();
                 entity.Property(e => e.Email).HasColumnName("email").HasMaxLength(150).IsRequired();
-                entity.Property(e => e.Rol).HasColumnName("rol").HasMaxLength(20).HasDefaultValue("cliente");
+                entity.Property(e => e.Rol).HasColumnName("rol").HasMaxLength(20).HasDefaultValue("cliente").IsRequired();
                 entity.Property(e => e.Estado).HasColumnName("estado").HasDefaultValue(1);
                 entity.Property(e => e.CreadoEn).HasColumnName("creado_en").HasDefaultValueSql("CURRENT_TIMESTAMP");
-                entity.Property(e => e.Telefono).HasColumnName("telefono").HasMaxLength(20);
 
                 entity.HasIndex(e => e.Email).IsUnique();
             });
@@ -54,7 +52,7 @@ namespace AplicativoWebMVC.Data
                 entity.HasKey(e => e.IdAdmin);
 
                 entity.Property(e => e.IdAdmin).HasColumnName("id_admin").ValueGeneratedOnAdd();
-                entity.Property(e => e.IdUsuario).HasColumnName("id_usuario");
+                entity.Property(e => e.IdUsuario).HasColumnName("id_usuario").IsRequired();
                 entity.Property(e => e.NivelAcesso).HasColumnName("nivel_acesso");
             });
 
@@ -65,7 +63,7 @@ namespace AplicativoWebMVC.Data
                 entity.HasKey(e => e.IdCategoria);
 
                 entity.Property(e => e.IdCategoria).HasColumnName("id_categoria").ValueGeneratedOnAdd();
-                entity.Property(e => e.NombreCategoria).HasColumnName("nombre_categoria").HasMaxLength(100);
+                entity.Property(e => e.NombreCategoria).HasColumnName("nombre_categoria").HasMaxLength(100).IsRequired();
                 entity.Property(e => e.Descripcion).HasColumnName("descripcion").HasMaxLength(255);
             });
 
@@ -98,15 +96,9 @@ namespace AplicativoWebMVC.Data
                 entity.HasKey(e => e.IdCliente);
 
                 entity.Property(e => e.IdCliente).HasColumnName("id_cliente").ValueGeneratedOnAdd();
-                entity.Property(e => e.IdUsuario).HasColumnName("id_usuario");
-                entity.Property(e => e.Nombre).HasColumnName("nombre").HasMaxLength(100);
-                entity.Property(e => e.Apellido).HasColumnName("apellido").HasMaxLength(100);
-                entity.Property(e => e.Telefono).HasColumnName("telefono");
-                entity.Property(e => e.Email).HasColumnName("email").HasMaxLength(150);
-                entity.Property(e => e.Direccion).HasColumnName("direccion").HasMaxLength(255);
+                entity.Property(e => e.IdUsuario).HasColumnName("id_usuario").IsRequired();
+                entity.Property(e => e.Telefono).HasColumnName("telefono").HasMaxLength(10).IsRequired();
             });
-
-            // ==================== VENTA ====================
 
             // ==================== CATALOGO / PRODUCTOS ====================
             modelBuilder.Entity<Catalogo>(entity =>
@@ -131,7 +123,7 @@ namespace AplicativoWebMVC.Data
                 entity.HasKey(e => e.IdVenta);
 
                 entity.Property(e => e.IdVenta).HasColumnName("id_venta").ValueGeneratedOnAdd();
-                entity.Property(e => e.IdCliente).HasColumnName("id_cliente");
+                entity.Property(e => e.IdCliente).HasColumnName("id_cliente").IsRequired();
                 entity.Property(e => e.IdUsuarioFechaVenta).HasColumnName("id_usuario_fecha_venta");
                 entity.Property(e => e.MetodoPago).HasColumnName("metodo_pago").HasMaxLength(50);
                 entity.Property(e => e.Estado).HasColumnName("estado").HasMaxLength(50);
@@ -144,10 +136,10 @@ namespace AplicativoWebMVC.Data
                 entity.HasKey(e => e.IdDetalle);
 
                 entity.Property(e => e.IdDetalle).HasColumnName("id_detalle").ValueGeneratedOnAdd();
-                entity.Property(e => e.IdVenta).HasColumnName("id_venta");
-                entity.Property(e => e.IdProducto).HasColumnName("id_producto");
-                entity.Property(e => e.Cantidad).HasColumnName("cantidad");
-                entity.Property(e => e.PrecioUnitario).HasColumnName("precio_unitario");
+                entity.Property(e => e.IdVenta).HasColumnName("id_venta").IsRequired();
+                entity.Property(e => e.IdProducto).HasColumnName("id_producto").IsRequired();
+                entity.Property(e => e.Cantidad).HasColumnName("cantidad").IsRequired();
+                entity.Property(e => e.PrecioUnitario).HasColumnName("precio_unitario").IsRequired();
                 entity.Property(e => e.Subtotal).HasColumnName("subtotal");
             });
 
@@ -158,8 +150,8 @@ namespace AplicativoWebMVC.Data
                 entity.HasKey(e => e.IdEntrega);
 
                 entity.Property(e => e.IdEntrega).HasColumnName("id_entrega").ValueGeneratedOnAdd();
-                entity.Property(e => e.IdVenta).HasColumnName("id_venta");
-                entity.Property(e => e.Direccion).HasColumnName("direccion").HasMaxLength(255);
+                entity.Property(e => e.IdVenta).HasColumnName("id_venta").IsRequired();
+                entity.Property(e => e.Direccion).HasColumnName("direccion").HasMaxLength(255).IsRequired();
                 entity.Property(e => e.Estado).HasColumnName("estado").HasMaxLength(50);
                 entity.Property(e => e.FechaProgramada).HasColumnName("fecha_programada");
                 entity.Property(e => e.FechaEntrega).HasColumnName("fecha_entrega");
@@ -173,11 +165,11 @@ namespace AplicativoWebMVC.Data
 
                 entity.Property(e => e.IdFacturacion).HasColumnName("id_facturacion").ValueGeneratedOnAdd();
                 entity.Property(e => e.IdFactura).HasColumnName("id_factura");
-                entity.Property(e => e.IdVenta).HasColumnName("id_venta");
-                entity.Property(e => e.NumeroFactura).HasColumnName("numero_factura").HasMaxLength(50);
+                entity.Property(e => e.IdVenta).HasColumnName("id_venta").IsRequired();
+                entity.Property(e => e.NumeroFactura).HasColumnName("numero_factura").HasMaxLength(50).IsRequired();
                 entity.Property(e => e.FechaEmision).HasColumnName("fecha_emision");
                 entity.Property(e => e.Impuestos).HasColumnName("impuestos");
-                entity.Property(e => e.TotalFactura).HasColumnName("total_factura");
+                entity.Property(e => e.TotalFactura).HasColumnName("total_factura").IsRequired();
             });
 
             // ==================== FACTURA DETALLE ====================
@@ -187,9 +179,9 @@ namespace AplicativoWebMVC.Data
                 entity.HasKey(e => e.IdDetalle);
 
                 entity.Property(e => e.IdDetalle).HasColumnName("id_detalle").ValueGeneratedOnAdd();
-                entity.Property(e => e.IdFactura).HasColumnName("id_factura");
+                entity.Property(e => e.IdFactura).HasColumnName("id_factura").IsRequired();
                 entity.Property(e => e.Descripcion).HasColumnName("descripcion").HasMaxLength(255);
-                entity.Property(e => e.Monto).HasColumnName("monto");
+                entity.Property(e => e.Monto).HasColumnName("monto").IsRequired();
             });
 
             // ==================== INVENTARIO ====================
@@ -199,7 +191,7 @@ namespace AplicativoWebMVC.Data
                 entity.HasKey(e => e.IdInventario);
 
                 entity.Property(e => e.IdInventario).HasColumnName("id_inventario").ValueGeneratedOnAdd();
-                entity.Property(e => e.IdProducto).HasColumnName("id_producto");
+                entity.Property(e => e.IdProducto).HasColumnName("id_producto").IsRequired();
                 entity.Property(e => e.StockActual).HasColumnName("stock_actual").HasColumnType("DECIMAL(10,2)");
                 entity.Property(e => e.Ubicacion).HasColumnName("ubicacion").HasMaxLength(100);
                 entity.Property(e => e.FechaActualizacion).HasColumnName("fecha_actualizacion");
@@ -217,7 +209,7 @@ namespace AplicativoWebMVC.Data
                 entity.HasKey(e => e.IdEntrada);
 
                 entity.Property(e => e.IdEntrada).HasColumnName("id_entrada").ValueGeneratedOnAdd();
-                entity.Property(e => e.IdMovimiento).HasColumnName("id_movimiento");
+                entity.Property(e => e.IdMovimiento).HasColumnName("id_movimiento").IsRequired();
                 entity.Property(e => e.Detalle).HasColumnName("detalle").HasMaxLength(255);
                 entity.Property(e => e.FechaEntrada).HasColumnName("fecha_entrada");
             });
@@ -229,7 +221,7 @@ namespace AplicativoWebMVC.Data
                 entity.HasKey(e => e.IdSalida);
 
                 entity.Property(e => e.IdSalida).HasColumnName("id_salida").ValueGeneratedOnAdd();
-                entity.Property(e => e.IdMovimiento).HasColumnName("id_movimiento");
+                entity.Property(e => e.IdMovimiento).HasColumnName("id_movimiento").IsRequired();
                 entity.Property(e => e.Destino).HasColumnName("destino").HasMaxLength(255);
                 entity.Property(e => e.Detalle).HasColumnName("detalle").HasMaxLength(255);
                 entity.Property(e => e.FechaSalida).HasColumnName("fecha_salida");
@@ -242,27 +234,14 @@ namespace AplicativoWebMVC.Data
                 entity.HasKey(e => e.IdMovimiento);
 
                 entity.Property(e => e.IdMovimiento).HasColumnName("id_movimiento").ValueGeneratedOnAdd();
-                entity.Property(e => e.IdProducto).HasColumnName("id_producto");
-                entity.Property(e => e.TipoMovimiento).HasColumnName("tipo_movimiento").HasMaxLength(50);
-                entity.Property(e => e.Cantidad).HasColumnName("cantidad");
-                entity.Property(e => e.Precio).HasColumnName("precio");
+                entity.Property(e => e.IdProducto).HasColumnName("id_producto").IsRequired();
+                entity.Property(e => e.TipoMovimiento).HasColumnName("tipo_movimiento").HasMaxLength(50).IsRequired();
+                entity.Property(e => e.Cantidad).HasColumnName("cantidad").IsRequired();
+                entity.Property(e => e.Precio).HasColumnName("precio").IsRequired();
                 entity.Property(e => e.FechaMovimiento).HasColumnName("fecha_movimiento");
-                entity.Property(e => e.Motivo).HasColumnName("motivo").HasMaxLength(255);
+                entity.Property(e => e.Motivo).HasColumnName("motivo").HasMaxLength(255).IsRequired();
                 entity.Property(e => e.IdUsuario).HasColumnName("id_usuario");
                 entity.Property(e => e.IdCliente).HasColumnName("id_cliente");
-            });
-
-            // ==================== PROVEEDOR ====================
-            modelBuilder.Entity<Proveedor>(entity =>
-            {
-                entity.ToTable("proveedor");
-                entity.HasKey(e => e.IdProveedor);
-
-                entity.Property(e => e.IdProveedor).HasColumnName("id_proveedor").ValueGeneratedOnAdd();
-                entity.Property(e => e.Nombre).HasColumnName("nombre").HasMaxLength(100);
-                entity.Property(e => e.Telefono).HasColumnName("telefono");
-                entity.Property(e => e.Email).HasColumnName("email").HasMaxLength(150);
-                entity.Property(e => e.Direccion).HasColumnName("direccion").HasMaxLength(255);
             });
         }
     }

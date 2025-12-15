@@ -72,7 +72,6 @@ document.addEventListener("DOMContentLoaded", () => {
             Email: document.getElementById("register-email").value,
             Telefono: document.getElementById("register-phone").value,
             Contrasena: password,
-            Rol: "cliente"
         };
 
         try {
@@ -87,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 formRegistro.reset();
                 setTimeout(() => {
                     window.location.href = "/CustomerMvc/Index";
-                }, 1000);
+                }, 200);
             } else {
                 const errorText = await res.text();
                 showMessage("Error al registrar: " + errorText, true);
@@ -119,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 showMessage("Inicio de sesión exitoso", false);
                 setTimeout(() => {
                     window.location.href = "/CustomerMvc/Index";
-                }, 800);
+                }, 200);
             } else {
                 showMessage("Credenciales incorrectas", true);
             }
@@ -151,7 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 showMessage("Bienvenido administrador", false);
                 setTimeout(() => {
                     window.location.href = "/AdminMvc/Index";
-                }, 800);
+                }, 200);
             } else {
                 showMessage("Credenciales incorrectas", true);
             }

@@ -18,38 +18,52 @@ namespace AplicativoWebMVC.Controllers
             _context = context;
         }
 
+        
         [HttpPost]
-        public async Task<IActionResult> Registrar([FromBody] Usuario usuario)
+        public async Task<IActionResult> Registrar([FromBody] RegistroDto registro)
         {
-            if (usuario == null)
+            if (registro == null)
                 return BadRequest("Datos inválidos.");
 
             // Verificar si el correo ya existe
-            var existe = await _context.Usuarios.AnyAsync(u => u.Email == usuario.Email);
+            var existe = await _context.Usuarios.AnyAsync(u => u.Email == registro.Email);
             if (existe)
                 return BadRequest("El correo ya está registrado.");
 
             try
             {
-                // Asignar campos obligatorios
-                usuario.Estado = 1;
-                usuario.CreadoEn = DateTime.Now;
-                usuario.Rol = usuario.Rol ?? "cliente";
+                // Crear usuario
+                var usuario = new Usuario
+                {
+                    NombreUsuario = registro.NombreUsuario,
+                    Email = registro.Email,
+                    Contrasena = registro.Contrasena,
+                    Rol = "cliente",
+                    Estado = 1,
+                    CreadoEn = DateTime.Now
+                };
 
-                // Guardar en la base de datos
                 _context.Usuarios.Add(usuario);
                 await _context.SaveChangesAsync();
 
-                // Retornar OK con mensaje y ID
+                // Crear cliente con teléfono
+                var cliente = new Cliente
+                {
+                    IdUsuario = usuario.IdUsuario,
+                    Telefono = registro.Telefono
+                };
+                _context.Clientes.Add(cliente);
+                await _context.SaveChangesAsync();
+
                 return Ok(new
                 {
-                    mensaje = "Usuario registrado correctamente",
-                    id = usuario.IdUsuario
+                    mensaje = "Cliente registrado correctamente",
+                    id_usuario = usuario.IdUsuario,
+                    id_cliente = cliente.IdCliente
                 });
             }
             catch (Exception ex)
             {
-                // Retornar error 500 con mensaje detallado y InnerException
                 return StatusCode(500, new
                 {
                     error = ex.Message,
@@ -57,5 +71,6 @@ namespace AplicativoWebMVC.Controllers
                 });
             }
         }
+
     }
 }

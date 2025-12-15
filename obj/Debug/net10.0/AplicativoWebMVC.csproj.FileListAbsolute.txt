@@ -372,7 +372,6 @@ C:\Users\User\Desktop\Aplicativo-Web-Panaderia\obj\Debug\net10.0\compressed\ydth
 C:\Users\User\Desktop\Aplicativo-Web-Panaderia\obj\Debug\net10.0\compressed\rey11sjyl1-{0}-8pqmi104tc-8pqmi104tc.gz
 C:\Users\User\Desktop\Aplicativo-Web-Panaderia\obj\Debug\net10.0\compressed\j8q1v9hh1h-{0}-ygcj9tauya-ygcj9tauya.gz
 C:\Users\User\Desktop\Aplicativo-Web-Panaderia\obj\Debug\net10.0\compressed\e7ivn58jhx-{0}-21e5puqcu6-21e5puqcu6.gz
-C:\Users\User\Desktop\Aplicativo-Web-Panaderia\obj\Debug\net10.0\compressed\tm2s7vn7fn-{0}-dz1dq46d0k-dz1dq46d0k.gz
 C:\Users\User\Desktop\Aplicativo-Web-Panaderia\obj\Debug\net10.0\compressed\zopjakzu7c-{0}-iey13v036k-iey13v036k.gz
 C:\Users\User\Desktop\Aplicativo-Web-Panaderia\obj\Debug\net10.0\compressed\i95dh0rioy-{0}-t1cqhe9u97-t1cqhe9u97.gz
 C:\Users\User\Desktop\Aplicativo-Web-Panaderia\obj\Debug\net10.0\compressed\rwe6yyd3ww-{0}-c2jlpeoesf-c2jlpeoesf.gz
@@ -447,3 +446,4 @@ C:\Users\User\Desktop\Aplicativo-Web-Panaderia\obj\Debug\net10.0\refint\Aplicati
 C:\Users\User\Desktop\Aplicativo-Web-Panaderia\obj\Debug\net10.0\AplicativoWebMVC.pdb
 C:\Users\User\Desktop\Aplicativo-Web-Panaderia\obj\Debug\net10.0\AplicativoWebMVC.genruntimeconfig.cache
 C:\Users\User\Desktop\Aplicativo-Web-Panaderia\obj\Debug\net10.0\ref\AplicativoWebMVC.dll
+C:\Users\User\Desktop\Aplicativo-Web-Panaderia\obj\Debug\net10.0\compressed\tm2s7vn7fn-{0}-shfcl8cexn-shfcl8cexn.gz

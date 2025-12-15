@@ -7,13 +7,13 @@ namespace AplicativoWebMVC.Models
     {
         public int IdProducto { get; set; } // clave primaria
 
-        public int IdCategoria { get; set; } // FK
+        public required int IdCategoria { get; set; } // FK
 
-        public string NombreProducto { get; set; } = string.Empty;
-        public string Descripcion { get; set; } = string.Empty;
+        public required string  NombreProducto { get; set; } = string.Empty;
+        public string  Descripcion { get; set; } = string.Empty;
         public string UnidadMedida { get; set; } = "unidad";
         public string? Imagen { get; set; } 
-        public decimal Precio { get; set; }
+        public  required decimal  Precio { get; set; }
         public int Estado { get; set; } = 1;
         
         [NotMapped]

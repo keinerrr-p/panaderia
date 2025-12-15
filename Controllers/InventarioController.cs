@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 using AplicativoWebMVC.Data;
 using AplicativoWebMVC.Models;
 
@@ -7,6 +8,7 @@ namespace AplicativoWebMVC.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles = "admin")]
     public class InventarioController : ControllerBase
     {
         private readonly PanaderiaContext _context;
@@ -15,46 +17,53 @@ namespace AplicativoWebMVC.Controllers
         {
             _context = context;
         }
+        
 
+        // ============================
+        // VER INVENTARIO
+        // ============================
         [HttpGet]
-        public async Task<IActionResult> GetAll() =>
-            Ok(await _context.Inventarios.ToListAsync());
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetInventario()
         {
-            var inv = await _context.Inventarios.FindAsync(id);
-            if (inv == null) return NotFound();
-            return Ok(inv);
+            var data = await _context.Inventarios
+                .Include(i => i.Producto)
+                .Select(i => new
+                {
+                    i.IdInventario,
+                    i.IdProducto,
+                    Producto = i.Producto != null ? i.Producto.NombreProducto : "",
+                    i.StockActual,
+                    i.Ubicacion,
+                    i.FechaActualizacion
+                })
+                .ToListAsync();
+
+            return Ok(data);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create(Inventario inv)
+        // ============================
+        // HISTORIAL DE MOVIMIENTOS
+        // ============================
+        [HttpGet("movimientos")]
+        public async Task<IActionResult> GetMovimientos()
         {
-            _context.Inventarios.Add(inv);
-            await _context.SaveChangesAsync();
-            return Ok(inv);
-        }
+            var movimientos = await (
+                from m in _context.MovimientosInventario
+                join p in _context.Catalogos
+                    on m.IdProducto equals p.IdProducto
+                orderby m.FechaMovimiento descending
+                select new
+                {
+                    m.IdMovimiento,
+                    Producto = p.NombreProducto,
+                    m.TipoMovimiento,
+                    m.Cantidad,
+                    m.Motivo,
+                    m.FechaMovimiento
+                }
+            ).ToListAsync();
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, Inventario inv)
-        {
-            if (id != inv.IdInventario) return BadRequest();
-
-            _context.Entry(inv).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-            return Ok(inv);
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var inv = await _context.Inventarios.FindAsync(id);
-            if (inv == null) return NotFound();
-
-            _context.Inventarios.Remove(inv);
-            await _context.SaveChangesAsync();
-            return Ok();
+            return Ok(movimientos);
         }
     }
 }
