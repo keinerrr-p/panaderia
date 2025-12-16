@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- CSS EXISTENTE -->
-    <link rel="stylesheet" href="/css/customercat.css">
+    <link rel="stylesheet" href="/css/customercat.css">    
 </head>
 <body class="min-h-screen">
 
@@ -28,7 +28,16 @@
                 </div>
             </div>
 
-            <div class="header-right flex gap-2 items-center">
+            <div class="header-right flex gap-3 items-center">
+
+                    @if (ViewBag.NombreUsuario != null)
+                    {
+                        <span class="user-welcome">
+                            👋 Bienvenido, <strong>@ViewBag.NombreUsuario</strong>
+                        </span>
+                    }
+
+
     <!-- BOTÓN CARRITO -->
                 <button class="btn btn-outline relative" onclick="irAlCarrito()">
                     🛒 Carrito

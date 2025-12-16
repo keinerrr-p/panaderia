@@ -5,8 +5,12 @@ namespace AplicativoWebMVC.Controllers
     public class CustomerMvcController : Controller
     {
         public IActionResult Index()
+
+        
         {
-            return View();
+            ViewBag.NombreUsuario = HttpContext.Session.GetString("NombreUsuario");
+           return View();
+            
         }
 
         

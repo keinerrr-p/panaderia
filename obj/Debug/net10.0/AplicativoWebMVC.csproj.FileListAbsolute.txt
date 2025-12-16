@@ -478,7 +478,6 @@ C:\Developers 3\proyect\Aplicativo-Web-Panaderia\obj\Debug\net10.0\scopedcss\Vie
 C:\Developers 3\proyect\Aplicativo-Web-Panaderia\obj\Debug\net10.0\scopedcss\bundle\AplicativoWebMVC.styles.css
 C:\Developers 3\proyect\Aplicativo-Web-Panaderia\obj\Debug\net10.0\scopedcss\projectbundle\AplicativoWebMVC.bundle.scp.css
 C:\Developers 3\proyect\Aplicativo-Web-Panaderia\obj\Debug\net10.0\compressed\z52bg6x9pc-{0}-r9v7jopjk2-r9v7jopjk2.gz
-C:\Developers 3\proyect\Aplicativo-Web-Panaderia\obj\Debug\net10.0\compressed\1o48v8zi5b-{0}-j4oxf65lkm-j4oxf65lkm.gz
 C:\Developers 3\proyect\Aplicativo-Web-Panaderia\obj\Debug\net10.0\compressed\3unen5panp-{0}-iwsx6gfywd-iwsx6gfywd.gz
 C:\Developers 3\proyect\Aplicativo-Web-Panaderia\obj\Debug\net10.0\compressed\tuukzak3hy-{0}-3yl3ryp561-3yl3ryp561.gz
 C:\Developers 3\proyect\Aplicativo-Web-Panaderia\obj\Debug\net10.0\compressed\anrl1yfpnj-{0}-8iow5noidn-8iow5noidn.gz
@@ -562,3 +561,5 @@ C:\Developers 3\proyect\Aplicativo-Web-Panaderia\obj\Debug\net10.0\refint\Aplica
 C:\Developers 3\proyect\Aplicativo-Web-Panaderia\obj\Debug\net10.0\AplicativoWebMVC.pdb
 C:\Developers 3\proyect\Aplicativo-Web-Panaderia\obj\Debug\net10.0\AplicativoWebMVC.genruntimeconfig.cache
 C:\Developers 3\proyect\Aplicativo-Web-Panaderia\obj\Debug\net10.0\ref\AplicativoWebMVC.dll
+C:\Developers 3\proyect\Aplicativo-Web-Panaderia\obj\Debug\net10.0\compressed\51k5qv7g8b-{0}-l0u8hrq029-l0u8hrq029.gz
+C:\Developers 3\proyect\Aplicativo-Web-Panaderia\obj\Debug\net10.0\compressed\1o48v8zi5b-{0}-w9k6l69519-w9k6l69519.gz

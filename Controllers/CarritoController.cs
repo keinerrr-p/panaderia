@@ -15,20 +15,45 @@ namespace AplicativoWebMVC.Controllers
             _context = context;
         }
 
+        // ===============================
+        // OBTENER CLIENTE
+        // ===============================
         private int ObtenerClienteId()
-            {
-                var idUsuario = HttpContext.Session.GetInt32("IdUsuario");
+        {
+            var idUsuario = HttpContext.Session.GetInt32("IdUsuario");
 
-                if (idUsuario == null)
-                    throw new Exception("Usuario no autenticado");
+            if (idUsuario == null)
+                throw new Exception("Usuario no autenticado");
 
-                return _context.Clientes
-                    .Where(c => c.IdUsuario == idUsuario)
-                    .Select(c => c.IdCliente)
-                    .First();
-            }
+            var idCliente = _context.Clientes
+                .Where(c => c.IdUsuario == idUsuario)
+                .Select(c => c.IdCliente)
+                .FirstOrDefault();
 
+            if (idCliente == 0)
+                throw new Exception("Cliente no encontrado");
 
+            return idCliente;
+        }
+
+        // ===============================
+        // VER CARRITO
+        // ===============================
+        [HttpGet("")]
+        public async Task<IActionResult> Index()
+        {
+            int idCliente = ObtenerClienteId();
+
+            var carrito = await _context.Set<CarritoItemDTO>()
+                .FromSqlRaw("CALL SP_ObtenerDetalleCarrito(@p0)", idCliente)
+                .ToListAsync();
+
+            return View(carrito);
+        }
+
+        // ===============================
+        // AGREGAR
+        // ===============================
         [HttpPost("Agregar")]
         [IgnoreAntiforgeryToken]
         public async Task<IActionResult> Agregar(int idProducto, decimal cantidad)
@@ -36,53 +61,50 @@ namespace AplicativoWebMVC.Controllers
             int idCliente = ObtenerClienteId();
 
             await _context.Database.ExecuteSqlRawAsync(
-                "CALL SP_AgregarAlCarrito(@p0, @p1, @p2)",
+                "CALL SP_AgregarAlCarrito(@p0,@p1,@p2)",
                 idCliente, idProducto, cantidad
             );
 
             return Ok();
         }
 
-        public async Task<IActionResult> Index()
-        {
-            int idCliente = ObtenerClienteId();
-
-            var carrito = await _context.CarritoItems
-                .FromSqlRaw("CALL SP_ObtenerDetalleCarrito(@p0)", idCliente)
-                .ToListAsync();
-
-            return View(carrito);
-        }
-    
-
-        // ✏️ ACTUALIZAR CANTIDAD
-        [HttpPost]
+        // ===============================
+        // ACTUALIZAR
+        // ===============================
+        [HttpPost("Actualizar")]
         public async Task<IActionResult> Actualizar(int idProducto, decimal cantidad)
         {
             int idCliente = ObtenerClienteId();
 
             await _context.Database.ExecuteSqlRawAsync(
-                "CALL SP_ActualizarCantidadCarrito(@p0, @p1, @p2)",
+                "CALL SP_ActualizarCantidadCarrito(@p0,@p1,@p2)",
                 idCliente, idProducto, cantidad
             );
 
             return RedirectToAction("Index");
         }
 
-        // ❌ ELIMINAR ITEM
-        [HttpPost]
-        public async Task<IActionResult> Eliminar(int idCarrito, int idProducto)
+        // ===============================
+        // ELIMINAR
+        // ===============================
+        [HttpPost("Eliminar")]
+        public async Task<IActionResult> Eliminar(int idProducto)
         {
+            int idCliente = ObtenerClienteId();
+
+            // reutilizamos el SP
             await _context.Database.ExecuteSqlRawAsync(
-                "CALL SP_EliminarItemCarrito(@p0, @p1)",
-                idCarrito, idProducto
+                "CALL SP_ActualizarCantidadCarrito(@p0,@p1,0)",
+                idCliente, idProducto
             );
 
             return RedirectToAction("Index");
         }
 
-        // ✅ FINALIZAR CARRITO
-        [HttpPost]
+        // ===============================
+        // FINALIZAR
+        // ===============================
+        [HttpPost("Finalizar")]
         public async Task<IActionResult> Finalizar()
         {
             int idCliente = ObtenerClienteId();
