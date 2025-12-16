@@ -7,7 +7,7 @@ namespace AplicativoWebMVC.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class LoginController : ControllerBase
+    public class LoginController : Controller
     {
         private readonly PanaderiaContext _context;
 
@@ -31,6 +31,11 @@ namespace AplicativoWebMVC.Controllers
 
             if (user.Contrasena != login.Contrasena)
                 return Unauthorized("Contraseña incorrecta.");
+
+                HttpContext.Session.SetInt32("IdUsuario", user.IdUsuario);
+                HttpContext.Session.SetString("Rol", user.Rol);
+                HttpContext.Session.SetString("NombreUsuario", user.NombreUsuario);
+
 
             return Ok(new
             {

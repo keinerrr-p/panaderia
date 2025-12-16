@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using AplicativoWebMVC.Models;
+using AplicativoWebPanaderia.Models;
+using AplicativoWebMVC.Models.DTOs;
 
 namespace AplicativoWebMVC.Data
 {
@@ -26,11 +28,27 @@ namespace AplicativoWebMVC.Data
         public DbSet<Venta> Ventas { get; set; }
         public DbSet<Catalogo> Catalogos { get; set; }
 
+        public DbSet<Carrito> Carrito { get; set; }
+
+        public DbSet<CarritoDetalle> Detalles { get; set; }
+        public DbSet<CarritoItemDTO> CarritoItems { get; set; }
+
+
+        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+             modelBuilder.Entity<CarritoDetalle>()
+                .Property(cd => cd.Subtotal)
+                .ValueGeneratedOnAddOrUpdate();
+
+            base.OnModelCreating(modelBuilder);
+
+             modelBuilder.Entity<CarritoItemDTO>().HasNoKey();
+    base.OnModelCreating(modelBuilder);
             // ==================== USUARIO ====================
             modelBuilder.Entity<Usuario>(entity =>
-            {
+             {
                 entity.ToTable("usuario");
                 entity.HasKey(e => e.IdUsuario);
 
@@ -242,7 +260,12 @@ namespace AplicativoWebMVC.Data
                 entity.Property(e => e.Motivo).HasColumnName("motivo").HasMaxLength(255).IsRequired();
                 entity.Property(e => e.IdUsuario).HasColumnName("id_usuario");
                 entity.Property(e => e.IdCliente).HasColumnName("id_cliente");
+
+                
             });
+            
         }
+ 
+ 
     }
 }

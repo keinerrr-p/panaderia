@@ -6,6 +6,16 @@ var builder = WebApplication.CreateBuilder(args);
 // ---------------------------------------------
 // 1. Agregar conexión a MySQL (Pomelo)
 // ---------------------------------------------
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromHours(2);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+builder.Services.AddHttpContextAccessor();
+
+
+
 builder.Services.AddDbContext<PanaderiaContext>(options =>
     options.UseMySql(
         builder.Configuration.GetConnectionString("DefaultConnection"),
@@ -38,6 +48,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseHttpsRedirection();
 // ---------------------------------------------
 // 4. Archivos estáticos (wwwroot)
 // ---------------------------------------------
@@ -47,6 +58,7 @@ app.UseStaticFiles();
 // 5. Routing y autorización
 // ---------------------------------------------
 app.UseRouting();
+app.UseSession();
 app.UseAuthorization();
 // ---------------------------------------------
 // 6. Ruta por defecto 

@@ -1,95 +1,167 @@
+
+@{
+    ViewData["Title"] = "Catálogo";
+}
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <title>Catálogo - Panadería</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda - Panadería Artesanal</title>
-    <link rel="icon" href="~/Imagenes/logo.jpeg" type="image/x-icon">
-    <link rel="stylesheet" href="~/css/customer.css">
+
+    <!-- CSS EXISTENTE -->
+    <link rel="stylesheet" href="/css/customercat.css">
 </head>
-<body>
-    <div class="min-h-screen">
-        <!-- Header -->
-        <header class="header">
-            <div class="container header-content">
-                <div class="header-left">
-                    <div class="logo">
-                        <img id="logo-img" alt="Logo" />
-                    </div>
-                    <div>
-                        <div class="header-title">Panadería Artesanal</div>
-                        <div class="header-subtitle">Tienda Online</div>
-                    </div>
+<body class="min-h-screen">
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-content container">
+            <div class="header-left">
+                <div class="logo">
+                    <img src="/img/logo.png" alt="Panadería">
                 </div>
-                <div class="header-right">
-                    <div class="user-info">
-                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
-                        </svg>
-                        <span class="text-sm" id="customer-name">Cliente</span>
-                    </div>
-                    <button class="btn btn-ghost btn-sm" onclick='location.href="@Url.Action("Index", "LoginMvc")"'>
-                        Cerrar Sesión
-                    </button>
-                    <button class="btn btn-ghost btn-sm cart-btn" onclick="toggleCart()">
-                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-                        </svg>
-                        <span id="cart-badge" class="cart-badge hidden">0</span>
-                    </button>
+                <div>
+                    <h1 class="header-title">Panadería Artesanal</h1>
+                    <p class="header-subtitle">Catálogo de productos</p>
                 </div>
             </div>
-        </header>
 
-        <!-- Navigation Tabs -->
-        <nav class="nav-tabs">
-            <div class="container nav-tabs-content">
-                <button class="view-tab active" onclick="switchView('shop')">
-                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-                    </svg>
-                    <span>Tienda</span>
+            <div class="header-right flex gap-2 items-center">
+    <!-- BOTÓN CARRITO -->
+                <button class="btn btn-outline relative" onclick="irAlCarrito()">
+                    🛒 Carrito
                 </button>
-                <button class="view-tab" onclick="switchView('orders')">
-                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/>
-                    </svg>
-                    <span>Mis Pedidos</span>
-                </button>
-                <button class="view-tab" onclick="switchView('payment')">
-                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>
-                    </svg>
-                    <span>Pago</span>
-                </button>
-            </div>
-        </nav>
 
-        <!-- Main Content -->
-        <main class="container main-content" id="customer-content"></main>
-
-        <!-- Footer -->
-        <footer class="footer">
-            <div class="footer-content container">
-                <p>© 2025 Panadería Artesanal - Tienda Online</p>
+                <!-- CERRAR SESIÓN -->
+                <button class="btn btn-ghost" onclick="irALogin()">Cerrar sesión</button>
             </div>
-        </footer>
-    </div>
 
-    <!-- Cart Modal -->
-    <div id="cart-modal" class="modal">
-        <div class="modal-backdrop" onclick="toggleCart()"></div>
-        <div class="modal-content">
-            <button class="close-btn" onclick="toggleCart()">&times;</button>
-            <div class="modal-header">
-                <h3 class="modal-title">Mi Carrito de Compras</h3>
-                <p class="modal-description">Revisa tus productos y procede al pago</p>
-            </div>
-            <div class="modal-body" id="cart-body"></div>
         </div>
-    </div>
+    </header>
 
-    <script src="~/js/customer.js"></script>
+    <!-- MAIN -->
+    <main class="main-content container">
+
+        <!-- TÍTULO -->
+        <div class="mb-2">
+            <h2 class="text-2xl">Catálogo de Productos</h2>
+            <p class="text-muted mt-1">Descubre nuestros productos artesanales</p>
+        </div>
+
+        <!-- GRID PRODUCTOS -->
+        <div id="catalogo" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6"></div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            © 2025 Panadería Artesanal · Todos los derechos reservados
+        </div>
+    </footer>
+
+    <script>
+        const API_URL = "http://localhost:5026/api/Catalogo/publico";
+        const LOGIN_URL = '@Url.Action("Index", "LoginMvc")';
+        const CARRITO_URL = '@Url.Action("Index", "Carrito")';
+
+function irAlCarrito() {
+    window.location.href = CARRITO_URL;
+}
+
+
+        async function cargarCatalogo() {
+            try {
+                const response = await fetch(API_URL);
+                if (!response.ok) throw new Error("Error HTTP " + response.status);
+
+                const productos = await response.json();
+                const contenedor = document.getElementById("catalogo");
+                contenedor.innerHTML = "";
+
+                if (productos.length === 0) {
+                    contenedor.innerHTML = `
+                        <div class="empty-state card">
+                            <p class="text-muted">No hay productos disponibles</p>
+                        </div>`;
+                    return;
+                }
+
+                productos.forEach(p => {
+                    const card = document.createElement("div");
+                    card.className = "card overflow-hidden transition-all";
+
+                    card.innerHTML = `
+                        <div class="aspect-video overflow-hidden">
+                            <img 
+                                src="${p.imagen || 'https://via.placeholder.com/400x250?text=Sin+Imagen'}"
+                                class="w-full h-full object-cover product-image"
+                                alt="${p.nombreProducto}">
+                        </div>
+
+                        <div class="card-content space-y-3">
+                            <div class="flex justify-between items-center">
+                                <h4 class="truncate">${p.nombreProducto}</h4>
+                                <span class="badge badge-primary">${p.categoria.nombreCategoria}</span> 
+                            </div>
+
+                            <p class="text-sm text-muted">
+                                ${p.descripcion || 'Producto artesanal de alta calidad'}
+                            </p>
+
+                            <div class="flex justify-between items-center">
+                                <strong class="text-primary">$ ${p.precio.toFixed(2)}</strong>
+
+                                <button 
+                                    class="btn btn-primary btn-sm"
+                                    onclick="agregarAlCarrito(${p.idProducto})">
+                                    Agregar al carrito
+                                </button>
+
+                            </div>
+                        </div>
+                    `;
+
+                    contenedor.appendChild(card);
+                });
+
+            } catch (error) {
+                console.error(error);
+                document.getElementById("catalogo").innerHTML = `
+                    <div class="empty-state card">
+                        <p class="text-muted">Error cargando productos</p>
+                    </div>`;
+            }
+        }
+
+        function irALogin() {
+            window.location.href = LOGIN_URL;
+        }
+        async function agregarAlCarrito(idProducto) {
+    try {
+        const response = await fetch('/Carrito/Agregar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `idProducto=${idProducto}&cantidad=1`
+        });
+
+        if (!response.ok) throw new Error("Error al agregar");
+
+        alert("Producto agregado al carrito 🛒");
+
+    } catch (error) {
+        console.error(error);
+        alert("Error al agregar al carrito");
+    }
+}
+
+
+        document.addEventListener("DOMContentLoaded", cargarCatalogo);
+    </script>
 
 </body>
 </html>

@@ -51,5 +51,21 @@ namespace AplicativoWebMVC.Controllers
             await _context.SaveChangesAsync();
             return Ok();
         }
+        // Añadir esta sección dentro de CatalogoController.cs
+
+        [HttpGet("categorias")] // Nuevo endpoint: /api/Catalogo/categorias
+        
+        public async Task<IActionResult> GetCategorias()
+        {
+            var categorias = await _context.Categorias
+                .Select(c => new
+                {
+                    idCategoria = c.IdCategoria,
+                    nombreCategoria = c.NombreCategoria
+                })
+                .ToListAsync();
+
+            return Ok(categorias);
+        }
     }
 }

@@ -21,5 +21,6 @@ namespace AplicativoWebMVC.Models
 
         // Propiedad de navegación
         public Categoria? Categoria { get; set; } = null!;
+        
     }
 }
