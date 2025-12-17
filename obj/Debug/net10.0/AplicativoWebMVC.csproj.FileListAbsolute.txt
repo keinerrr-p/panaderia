@@ -600,11 +600,11 @@ C:\Developers 3\proyect\panaderia\obj\Debug\net10.0\compressed\3unen5panp-{0}-iw
 C:\Developers 3\proyect\panaderia\obj\Debug\net10.0\compressed\tuukzak3hy-{0}-3yl3ryp561-3yl3ryp561.gz
 C:\Developers 3\proyect\panaderia\obj\Debug\net10.0\compressed\anrl1yfpnj-{0}-8iow5noidn-8iow5noidn.gz
 C:\Developers 3\proyect\panaderia\obj\Debug\net10.0\compressed\srdmckve7j-{0}-oh17tvgzjq-oh17tvgzjq.gz
+C:\Developers 3\proyect\panaderia\obj\Debug\net10.0\compressed\qkbppfteay-{0}-ag0ji0i1i8-ag0ji0i1i8.gz
 C:\Developers 3\proyect\panaderia\obj\Debug\net10.0\compressed\ydtha0gym8-{0}-8iow5noidn-8iow5noidn.gz
 C:\Developers 3\proyect\panaderia\obj\Debug\net10.0\compressed\rey11sjyl1-{0}-8pqmi104tc-8pqmi104tc.gz
 C:\Developers 3\proyect\panaderia\obj\Debug\net10.0\compressed\j8q1v9hh1h-{0}-ygcj9tauya-ygcj9tauya.gz
 C:\Developers 3\proyect\panaderia\obj\Debug\net10.0\compressed\e7ivn58jhx-{0}-21e5puqcu6-21e5puqcu6.gz
-C:\Developers 3\proyect\panaderia\obj\Debug\net10.0\compressed\tm2s7vn7fn-{0}-shfcl8cexn-shfcl8cexn.gz
 C:\Developers 3\proyect\panaderia\obj\Debug\net10.0\compressed\zopjakzu7c-{0}-iey13v036k-iey13v036k.gz
 C:\Developers 3\proyect\panaderia\obj\Debug\net10.0\compressed\i95dh0rioy-{0}-t1cqhe9u97-t1cqhe9u97.gz
 C:\Developers 3\proyect\panaderia\obj\Debug\net10.0\compressed\rwe6yyd3ww-{0}-c2jlpeoesf-c2jlpeoesf.gz
@@ -679,4 +679,4 @@ C:\Developers 3\proyect\panaderia\obj\Debug\net10.0\refint\AplicativoWebMVC.dll
 C:\Developers 3\proyect\panaderia\obj\Debug\net10.0\AplicativoWebMVC.pdb
 C:\Developers 3\proyect\panaderia\obj\Debug\net10.0\AplicativoWebMVC.genruntimeconfig.cache
 C:\Developers 3\proyect\panaderia\obj\Debug\net10.0\ref\AplicativoWebMVC.dll
-C:\Developers 3\proyect\panaderia\obj\Debug\net10.0\compressed\qkbppfteay-{0}-ag0ji0i1i8-ag0ji0i1i8.gz
+C:\Developers 3\proyect\panaderia\obj\Debug\net10.0\compressed\xl8dqimrlk-{0}-iw2crav1t2-iw2crav1t2.gz

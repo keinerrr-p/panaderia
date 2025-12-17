@@ -85,12 +85,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 showMessage("Cliente registrado correctamente", false);
                 formRegistro.reset();
                 setTimeout(() => {
-                    window.location.href = "/CustomerMvc/Index";
-                }, 200);
+                    window.location.href = "/LoginMvc/Index";
+                }, 1000);
             } else {
                 const errorText = await res.text();
                 showMessage("Error al registrar: " + errorText, true);
-            }
+            } 
         } catch (err) {
             showMessage("Error al conectar con el servidor: " + err.message, true);
         }
