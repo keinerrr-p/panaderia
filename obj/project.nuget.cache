@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "zj5PKKMOgpY=",
+  "dgSpecHash": "VATpA//J0yQ=",
   "success": true,
-  "projectFilePath": "C:\\Developers 3\\proyect\\Aplicativo-Web-Panaderia\\AplicativoWebMVC.csproj",
+  "projectFilePath": "C:\\Developers 3\\proyect\\panaderia\\AplicativoWebMVC.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\puent\\.nuget\\packages\\microsoft.entityframeworkcore\\9.0.0\\microsoft.entityframeworkcore.9.0.0.nupkg.sha512",
     "C:\\Users\\puent\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\9.0.0\\microsoft.entityframeworkcore.abstractions.9.0.0.nupkg.sha512",
