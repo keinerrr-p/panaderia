@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AplicativoWebMVC")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7a480d5526f0d3f326f50ad38d456778fda459cf")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e88d7645e31ee917b0e8986da084a679aced5bba")]
 [assembly: System.Reflection.AssemblyProductAttribute("AplicativoWebMVC")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AplicativoWebMVC")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

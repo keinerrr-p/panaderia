@@ -679,3 +679,4 @@ C:\Developers 3\proyect\panaderia\obj\Debug\net10.0\refint\AplicativoWebMVC.dll
 C:\Developers 3\proyect\panaderia\obj\Debug\net10.0\AplicativoWebMVC.pdb
 C:\Developers 3\proyect\panaderia\obj\Debug\net10.0\AplicativoWebMVC.genruntimeconfig.cache
 C:\Developers 3\proyect\panaderia\obj\Debug\net10.0\ref\AplicativoWebMVC.dll
+C:\Developers 3\proyect\panaderia\obj\Debug\net10.0\compressed\qkbppfteay-{0}-ag0ji0i1i8-ag0ji0i1i8.gz

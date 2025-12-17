@@ -36,15 +36,16 @@
                             👋 Bienvenido, <strong>@ViewBag.NombreUsuario</strong>
                         </span>
                     }
+                                    <!-- PERFIL -->
+                    <button class="btn btn-ghost" onclick="irAPerfil()">👤 Perfil</button>
 
+                     <!-- BOTÓN CARRITO  -->
+                    <button class="btn btn-outline relative" onclick="irAlCarrito()">
+                        🛒 Carrito
+                    </button>
 
-    <!-- BOTÓN CARRITO -->
-                <button class="btn btn-outline relative" onclick="irAlCarrito()">
-                    🛒 Carrito
-                </button>
-
-                <!-- CERRAR SESIÓN -->
-                <button class="btn btn-ghost" onclick="irALogin()">Cerrar sesión</button>
+                    <!-- CERRAR SESIÓN -->
+                    <button class="btn btn-ghost" onclick="irALogin()">Cerrar sesión</button>
             </div>
 
         </div>
@@ -75,6 +76,12 @@
         const API_URL = "http://localhost:5026/api/Catalogo/publico";
         const LOGIN_URL = '@Url.Action("Index", "LoginMvc")';
         const CARRITO_URL = '@Url.Action("Index", "Carrito")';
+        const PERFIL_URL = '@Url.Action("Index", "Perfil")';
+
+        function irAPerfil() {
+    window.location.href = '@Url.Action("Editar", "Perfil")';
+}
+
 
 function irAlCarrito() {
     window.location.href = CARRITO_URL;
