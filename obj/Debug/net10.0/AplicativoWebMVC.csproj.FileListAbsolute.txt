@@ -796,4 +796,4 @@ C:\Users\AdminSena\Downloads\MiProyecto\Proyecto\panaderia\obj\Debug\net10.0\Apl
 C:\Users\AdminSena\Downloads\MiProyecto\Proyecto\panaderia\obj\Debug\net10.0\AplicativoWebMVC.genruntimeconfig.cache
 C:\Users\AdminSena\Downloads\MiProyecto\Proyecto\panaderia\obj\Debug\net10.0\ref\AplicativoWebMVC.dll
 C:\Users\AdminSena\Downloads\MiProyecto\Proyecto\panaderia\obj\Debug\net10.0\compressed\1o48v8zi5b-{0}-w9k6l69519-w9k6l69519.gz
-C:\Users\AdminSena\Downloads\MiProyecto\Proyecto\panaderia\obj\Debug\net10.0\compressed\z52bg6x9pc-{0}-ecvj4fn9cf-ecvj4fn9cf.gz
+C:\Users\AdminSena\Downloads\MiProyecto\Proyecto\panaderia\obj\Debug\net10.0\compressed\z52bg6x9pc-{0}-nc2facd0ax-nc2facd0ax.gz

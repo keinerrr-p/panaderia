@@ -3,7 +3,7 @@
    ============================================ */
 
 button + button {
-    margin-left: 50%;
+    margin-left: 1px;
 }
 
 
@@ -16,7 +16,7 @@ button + button {
     --primary-foreground: #0a0e1a;
     --secondary: #1a2234;
     --muted: #1a2234;
-    --muted-foreground: #8a8475;
+    --muted-foreground: #6b7280;
     --border: rgba(212, 184, 150, 0.15);
     --input-background: #1a2234;
     --radius: 0.625rem;
