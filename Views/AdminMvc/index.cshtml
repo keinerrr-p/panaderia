@@ -26,7 +26,7 @@
             <div class="flex justify-end mb-4">
                 <button class="btn btn-primary" onclick="openModal()">Agregar producto</button>
             </div>
-            <div id="catalogo" class="grid grid-cols-3 gap-6"></div>
+            <div id="catalogo" class="grid grid-cols-4 gap-6"></div>
         </main>
     </div>
 
@@ -110,8 +110,8 @@
                             <span class="text-primary text-2xl">$${p.precio.toFixed(2)}</span>
                         </div>
                         <div class="flex justify-center gap-2 mt-3">
-                            <button class="btn btn-sm btn-primary" onclick="eliminarProducto(${p.idProducto})">Eliminar</button>
                             <button class="btn btn-sm btn-primary" onclick="editarProducto(${p.idProducto})">Editar</button>
+                            <button class="btn btn-sm btn-primary" onclick="eliminarProducto(${p.idProducto})">Eliminar</button>
                         </div>
                     </div>`;
                 contenedor.appendChild(card);
@@ -124,12 +124,15 @@
 
     function openModal(editar = false) {
         const modal = document.getElementById("modal");
+        const imagePreviewDiv = document.getElementById("modalImagePreview").parentElement;
         modal.classList.remove("hidden");
         if (!editar) {
             document.getElementById("modalTitle").textContent = "Crear producto";
             document.getElementById("modalForm").reset();
             document.getElementById("modalId").value = "";
-            document.getElementById("modalImagePreview").src = "https://via.placeholder.com/128";
+            imagePreviewDiv.style.display = "none";
+        } else {
+            imagePreviewDiv.style.display = "block";
         }
     }
 
