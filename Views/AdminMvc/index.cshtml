@@ -3,198 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- aplicar estilos públicos para que los productos en el admin se vean igual -->
+    <link rel="stylesheet" href="/css/index.css">
     <link rel="stylesheet" href="~/css/admin.css" />
-    <title>CRUD Catálogo - Prueba</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
-        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; vertical-align: middle; }
-        th { background-color: #f0f0f0; }
-        input, select, button { margin: 5px 0; padding: 5px; }
-        form { margin-top: 20px; }
-        img.producto-img { width: 50px; height: 50px; object-fit: cover; }
-    </style>
+    <title>CRUD Catálogo - Admin</title>
 </head>
-<body>
-    <h1>CRUD Catálogo</h1>
+<body class="min-h-screen">
+    <div class="container mx-auto p-4">
+        <header class="header mb-4">
+            <div class="container header-content">
+                <h1 class="header-title">Administración del Catálogo</h1>
+            </div>
+        </header>
 
-    <!-- Tabla de productos -->
-    <table id="tablaProductos">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Imagen</th>
-                <th>Nombre</th>
-                <th>Categoría</th>
-                <th>Descripción</th>
-                <th>Precio</th>
-                <th>Unidad</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+        <main class="main-content">
+            <div class="section-header text-center mb-2">
+                <h2>Productos</h2>
+                <p class="text-muted">Agrega, edita o elimina productos</p>
+            </div>
+            <div class="flex justify-end mb-4">
+                <button class="btn btn-primary" onclick="openModal()">Agregar producto</button>
+            </div>
+            <div id="catalogo" class="grid grid-cols-3 gap-6"></div>
+        </main>
+    </div>
 
-    <!-- Formulario -->
-    <form id="formProducto">
-        <h2 id="tituloForm">Crear Producto</h2>
-        <input type="hidden" id="idProducto">
-        <div>
-            <label>Nombre:</label>
-            <input type="text" id="nombreProducto" required>
+    <!-- modal de edición/creación -->
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <!-- card-style container for modal -->
+        <div class="card w-80 relative">
+            <button class="absolute top-2 right-2 text-gray-500 text-xl" onclick="closeModal()">&times;</button>
+            <div class="card-content p-6">
+                <h2 id="modalTitle" class="text-xl font-semibold mb-4 text-center">Editar producto</h2>
+                <div class="text-center">
+                    <img id="modalImagePreview" src="" alt="Imagen producto" class="mx-auto mb-4 w-32 h-32 object-cover rounded" />
+                </div>
+                <form id="modalForm" class="space-y-3">
+                    <input type="hidden" id="modalId">
+                    <div>
+                        <label class="block text-sm font-medium">Nombre</label>
+                        <input type="text" id="modalNombre" class="mt-1 block w-64 border border-gray-300 rounded px-2 py-1" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium">ID Categoría</label>
+                        <input type="number" id="modalCategoria" class="mt-1 block w-64 border border-gray-300 rounded px-2 py-1" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium">Descripción</label>
+                        <textarea id="modalDescripcion" class="mt-1 block w-64 border border-gray-300 rounded px-2 py-1"></textarea>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="flex-1">
+                            <label class="block text-sm font-medium">Precio</label>
+                            <input type="number" id="modalPrecio" step="0.01" class="mt-1 block w-28 border border-gray-300 rounded px-2 py-1" required>
+                        </div>
+                        <div class="flex-1">
+                            <label class="block text-sm font-medium">Stock</label>
+                            <input type="number" id="modalStock" step="1" class="mt-1 block w-28 border border-gray-300 rounded px-2 py-1" required>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium">Imagen URL</label>
+                        <input type="text" id="modalImagen" class="mt-1 block w-64 border border-gray-300 rounded px-2 py-1">
+                    </div>
+                    <div class="flex justify-end gap-2">
+                        <button type="button" class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div>
-            <label>ID Categoría:</label>
-            <input type="number" id="idCategoria" required>
-        </div>
-        <div>
-            <label>Descripción:</label>
-            <input type="text" id="descripcion">
-        </div>
-        <div>
-            <label>Unidad:</label>
-            <input type="text" id="unidadMedida" value="unidad">
-        </div>
-        <div>
-            <label>Precio:</label>
-            <input type="number" id="precio" step="0.01" required>
-        </div>
-        <div>
-            <label>Estado:</label>
-            <select id="estado">
-                <option value="1">Activo</option>
-                <option value="0">Inactivo</option>
-            </select>
-        </div>
-        <div>
-            <label>Stock Inicial:</label>
-            <input type="number" id="stock" step="1" required>
-        </div>
-        <div>
-            <label>URL Imagen:</label>
-            <input type="text" id="imagen">
-        </div>
-        <button type="submit">Guardar</button>
-        <button type="button" onclick="resetForm()">Cancelar</button>
-    </form>
+    </div>
 
     <script>
-    const apiUrl = "http://localhost:5026/api/Catalogo"; // Usando CatalogoController
+    const apiUrl = "http://localhost:5027/api/Catalogo";
 
-    // Cargar productos
     async function cargarProductos() {
         try {
             const res = await fetch(apiUrl);
             const data = await res.json();
-            const tbody = document.querySelector("#tablaProductos tbody");
-            tbody.innerHTML = "";
+            const contenedor = document.getElementById("catalogo");
+            contenedor.innerHTML = "";
+            if (data.length === 0) {
+                contenedor.innerHTML = `<div class="empty-state text-center"><p class="text-muted">No hay productos</p></div>`;
+                return;
+            }
             data.forEach(p => {
-                tbody.innerHTML += `
-                    <tr>
-                        <td>${p.idProducto}</td>
-                        <td><img src="${p.imagen || ''}" class="producto-img" alt="Imagen"></td>
-                        <td>${p.nombreProducto}</td>
-                        <td>${p.categoria?.nombreCategoria || ''}</td>
-                        <td>${p.descripcion}</td>
-                        <td>${p.precio.toFixed(2)}</td>
-                        <td>${p.unidadMedida}</td>
-                        <td>${p.estado == 1 ? 'Activo' : 'Inactivo'}</td>
-                        <td>
-                            <button onclick="editarProducto(${p.idProducto})">Editar</button>
-                            <button onclick="eliminarProducto(${p.idProducto})">Eliminar</button>
-                        </td>
-                    </tr>
-                `;
+                const card = document.createElement("div");
+                card.className = "card overflow-hidden transition-all";
+                card.innerHTML = `
+                    <div class="aspect-video overflow-hidden">
+                        <img
+                            src="${p.imagen || 'https://via.placeholder.com/400x300?text=Sin+Imagen'}"
+                            alt="${p.nombreProducto}"
+                            class="product-image w-full h-full object-cover">
+                    </div>
+                    <div class="card-content space-y-3">
+                        <div class="flex justify-between items-center">
+                            <h4 class="truncate">${p.nombreProducto}</h4>
+                            <span class="badge badge-primary">${p.categoria?.nombreCategoria || ''}</span>
+                        </div>
+                        <p class="text-sm text-muted truncate">${p.descripcion || ''}</p>
+                        <div class="flex justify-between items-center mt-2">
+                            <span class="text-primary text-2xl">$${p.precio.toFixed(2)}</span>
+                        </div>
+                        <div class="flex justify-center gap-2 mt-3">
+                            <button class="btn btn-sm btn-ghost" onclick="eliminarProducto(${p.idProducto})">Eliminar</button>
+                            <button class="btn btn-sm btn-primary" onclick="editarProducto(${p.idProducto})">Editar</button>
+                        </div>
+                    </div>`;
+                contenedor.appendChild(card);
             });
-        } catch (error) {
-            console.error("Error cargando productos:", error);
+        } catch (err) {
+            console.error(err);
+            document.getElementById("catalogo").innerHTML = "<p>Error cargando productos</p>";
         }
     }
 
-    // Crear o actualizar producto
-    document.getElementById("formProducto").addEventListener("submit", async (e) => {
+    function openModal(editar = false) {
+        const modal = document.getElementById("modal");
+        modal.classList.remove("hidden");
+        if (!editar) {
+            document.getElementById("modalTitle").textContent = "Crear producto";
+            document.getElementById("modalForm").reset();
+            document.getElementById("modalId").value = "";
+            document.getElementById("modalImagePreview").src = "https://via.placeholder.com/128";
+        }
+    }
+
+    function closeModal() {
+        document.getElementById("modal").classList.add("hidden");
+    }
+
+    document.getElementById("modalForm").addEventListener("submit", async e => {
         e.preventDefault();
-        const id = document.getElementById("idProducto").value;
+        const id = document.getElementById("modalId").value;
         const producto = {
             IdProducto: id || 0,
-            NombreProducto: document.getElementById("nombreProducto").value,
-            IdCategoria: parseInt(document.getElementById("idCategoria").value),
-            Descripcion: document.getElementById("descripcion").value,
-            UnidadMedida: document.getElementById("unidadMedida").value,
-            Precio: parseFloat(document.getElementById("precio").value),
-            Estado: parseInt(document.getElementById("estado").value),
-            Stock: parseInt(document.getElementById("stock").value),
-            Imagen: document.getElementById("imagen").value
+            NombreProducto: document.getElementById("modalNombre").value,
+            IdCategoria: parseInt(document.getElementById("modalCategoria").value),
+            Descripcion: document.getElementById("modalDescripcion").value,
+            Precio: parseFloat(document.getElementById("modalPrecio").value),
+            Stock: parseInt(document.getElementById("modalStock").value),
+            Imagen: document.getElementById("modalImagen").value
         };
-
         try {
-            if(id) {
-                // PUT para actualizar
-                await fetch(`${apiUrl}/${id}`, {
-                    method: "PUT",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(producto)
-                });
+            if (id) {
+                await fetch(`${apiUrl}/${id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(producto) });
             } else {
-                // POST para crear
-                await fetch(apiUrl, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(producto)
-                });
+                await fetch(apiUrl, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(producto) });
             }
-            resetForm();
+            closeModal();
             cargarProductos();
-        } catch (error) {
-            console.error("Error guardando producto:", error);
-        }
+        } catch (err) { console.error(err); }
     });
 
-    // Editar producto
     async function editarProducto(id) {
+        console.log("editarProducto called with id:", id);
         try {
             const res = await fetch(`${apiUrl}/${id}`);
             const p = await res.json();
-            document.getElementById("tituloForm").textContent = "Editar Producto";
-            document.getElementById("idProducto").value = p.idProducto;
-            document.getElementById("nombreProducto").value = p.nombreProducto;
-            document.getElementById("idCategoria").value = p.idCategoria;
-            document.getElementById("descripcion").value = p.descripcion;
-            document.getElementById("unidadMedida").value = p.unidadMedida;
-            document.getElementById("precio").value = p.precio;
-            document.getElementById("estado").value = p.estado;
-            document.getElementById("stock").value = p.stock || 0;
-            document.getElementById("imagen").value = p.imagen || '';
-        } catch (error) {
-            console.error("Error cargando producto:", error);
-        }
+            console.log("Producto fetched:", p);
+            document.getElementById("modalTitle").textContent = "Editar producto";
+            document.getElementById("modalId").value = p.idProducto;
+            document.getElementById("modalNombre").value = p.nombreProducto;
+            document.getElementById("modalCategoria").value = p.idCategoria;
+            document.getElementById("modalDescripcion").value = p.descripcion;
+            document.getElementById("modalPrecio").value = p.precio;
+            document.getElementById("modalStock").value = p.stock || 0;
+            document.getElementById("modalImagen").value = p.imagen || '';
+            document.getElementById("modalImagePreview").src = p.imagen || 'https://via.placeholder.com/128';
+            openModal(true);
+        } catch (err) { console.error("Error en editarProducto:", err); }
     }
 
-    // Eliminar producto
     async function eliminarProducto(id) {
-        if(confirm("¿Deseas eliminar este producto?")) {
+        if (confirm("¿Deseas eliminar este producto?")) {
             try {
                 await fetch(`${apiUrl}/${id}`, { method: "DELETE" });
                 cargarProductos();
-            } catch (error) {
-                console.error("Error eliminando producto:", error);
-            }
+            } catch (err) { console.error(err); }
         }
     }
 
-    // Reset formulario
-    function resetForm() {
-        document.getElementById("formProducto").reset();
-        document.getElementById("idProducto").value = "";
-        document.getElementById("tituloForm").textContent = "Crear Producto";
-    }
-
-    // Inicializar tabla al cargar la página
     cargarProductos();
-</script>
-
-
-
+    </script>
 </body>
 </html>

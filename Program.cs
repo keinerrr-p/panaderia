@@ -46,9 +46,8 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
+    app.UseHttpsRedirection();
 }
-
-app.UseHttpsRedirection();
 // ---------------------------------------------
 // 4. Archivos estáticos (wwwroot)
 // ---------------------------------------------
@@ -65,7 +64,7 @@ app.UseAuthorization();
 // ---------------------------------------------
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=PublicMvc}/{action=Index}/{id?}"
+    pattern: "{controller=AdminMvc}/{action=Index}/{id?}"
 );
 
 // ---------------------------------------------
